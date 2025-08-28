@@ -6,7 +6,6 @@ st.set_page_config(page_title="AI Agent Chatbot", layout="centered")
 st.title("AI Agent Chatbot")
 st.markdown("Chat with powerful LLMs like Groq LLaMA3, Gemini with optional web search!")
 
-# Sidebar form for input configuration
 with st.sidebar:
     st.header("Agent Configuration")
     
@@ -38,7 +37,7 @@ for role, msg in st.session_state.chat_history:
         with st.chat_message("ai"):
             st.markdown(msg)
 
-# Handle user input
+# User input
 user_query = st.chat_input("Type your message...")
 
 if user_query:
