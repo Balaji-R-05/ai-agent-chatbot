@@ -13,7 +13,7 @@ with st.sidebar:
     
     model_name = st.selectbox(
         "Model Name",
-        ["llama3-70b-8192"]
+        ["openai/gpt-oss-120b", "llama-3.3-70b-versatile"]
     )
     
     system_prompt = st.text_area(
