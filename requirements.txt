@@ -1,5 +1,13 @@
 streamlit
-langchain
+langchain-core
 langchain_community
 langchain_groq
 python-dotenv
+fastapi
+uvicorn
+pydantic
+langgraph
+langchain-tavily
+requests
+wikipedia
+langchain-experimental
