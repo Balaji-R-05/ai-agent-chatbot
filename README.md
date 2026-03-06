@@ -85,8 +85,9 @@ streamlit run client/app.py
 ```
 
 ---
-**API Documentation:** [http://127.0.0.1:8000/doc](http://127.0.0.1:8000/doc)
-**Streamlit App:** [http://127.0.0.1:8501](http://127.0.0.1:8501)
+
+- **API Documentation:** [http://127.0.0.1:8000/doc](http://127.0.0.1:8000/doc)
+- **Streamlit App:** [http://127.0.0.1:8501](http://127.0.0.1:8501)
 
 ---
 Developed by [Balaji-R-05](https://github.com/Balaji-R-05)
