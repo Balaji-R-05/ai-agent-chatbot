@@ -37,19 +37,17 @@ def get_response_from_ai_agent(llm_id, query, allow_search: bool, system_prompt,
                 messages.append(AIMessage(content=msg['content']))
 
         logger.info(f"Final messages count (including system): {len(messages)}")
-        
         config = {"recursion_limit": RECURSION_LIMIT}
         response = agent.invoke({"messages": messages}, config=config)
-        
         res_messages = response.get("messages", [])
-        
         ai_response = "No response from AI."
+
         for msg in reversed(res_messages):
             if isinstance(msg, AIMessage) and msg.content:
                 ai_response = msg.content
                 break
-
         tool_names = []
+
         for msg in res_messages:
             if isinstance(msg, ToolMessage):
                 tool_names.append(msg.name if msg.name else "Unknown Tool")
@@ -71,7 +69,9 @@ def get_response_from_ai_agent(llm_id, query, allow_search: bool, system_prompt,
         logger.error(f"FATAL ERROR in get_response_from_ai_agent: {str(e)}")
         logger.error(traceback.format_exc())
         error_msg = str(e)
-        if "rate limit" in error_msg.lower():
+        if "Recursion limit" in error_msg:
+            error_msg = f"The agent reached its step limit ({RECURSION_LIMIT}). Try a simpler query or increase RECURSION_LIMIT in .env."
+        elif "rate limit" in error_msg.lower():
             error_msg = "Rate limit exceeded. Please wait a moment."
         elif "authentication" in error_msg.lower():
             error_msg = "API Key authentication failed."

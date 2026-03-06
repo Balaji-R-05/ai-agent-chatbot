@@ -1,7 +1,10 @@
 .env
-venv
-__pycache
-__pycache__
+venv/
+.venv/
+__pycache__/
 *.pyc
-
-tests
+.vscode/
+.idea/
+.DS_Store
+*.log
+tests/

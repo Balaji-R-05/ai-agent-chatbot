@@ -1,10 +1,9 @@
 from fastapi import APIRouter, HTTPException
 from app.model import RequestState
 from agents.ai_agents import get_response_from_ai_agent
+from app.config import ALLOWED_MODEL_NAMES
 
 router = APIRouter()
-
-ALLOWED_MODEL_NAMES = ["openai/gpt-oss-120b", "llama-3.3-70b-versatile"]
 
 @router.post("/chat")
 def chat_endpoint(request: RequestState):

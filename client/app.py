@@ -54,7 +54,9 @@ if user_query:
                     "allow_search": allow_search
                 }
                 
-                res = requests.post("http://127.0.0.1:8000/chat", json=payload)
+                import os
+                backend_url = os.getenv("BACKEND_URL", "http://127.0.0.1:8000")
+                res = requests.post(f"{backend_url}/chat", json=payload)
                 res.raise_for_status()
                 
                 response_data = res.json()
