@@ -75,5 +75,10 @@ if user_query:
                 
                 st.markdown(ai_response)
                 st.session_state.chat_history.append(("ai", ai_response))
+            except requests.exceptions.RequestException as e:
+                error_msg = f"Error: {e}"
+                if hasattr(e, 'response') and e.response is not None:
+                    error_msg += f" | Details: {e.response.text}"
+                st.error(error_msg)
             except Exception as e:
-                st.error(f"Error: {e}")
+                st.error(f"Unexpected Error: {e}")
