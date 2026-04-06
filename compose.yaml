@@ -3,10 +3,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.server
+    container_name: ai-agent-server
     ports:
       - "8000:8000"
     env_file:
       - .env
+    restart: unless-stopped    
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
       interval: 30s
@@ -17,6 +19,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.client
+    container_name: ai-agent-client
     ports:
       - "8501:8501"
     environment:
@@ -24,3 +27,4 @@ services:
     depends_on:
       server:
         condition: service_healthy
+    restart: unless-stopped

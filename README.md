@@ -4,9 +4,9 @@ A multi-model conversational AI chatbot built with **Streamlit, LangChain, LangG
 
 <div align="center">
   <img src="./imgs/chatbot_ui.png" alt="Chat UI">
-  <img src="./imgs/tool_tavily_demo.png" alt="Tavily Search">
-  <img src="./imgs/tool_wikipedia_demo.png" alt="Wikipedia">
-  <img src="./imgs/tool_python_demo.png" alt="Python REPL">
+  <img src="./imgs/tool_web_search.png" alt="Web Search">
+  <img src="./imgs/tool_wikipedia.png" alt="Wikipedia">
+  <img src="./imgs/tool_python_repl.png" alt="Python REPL">
   <img src="./imgs/tool_list.png" alt="Tools List">
 </div>
 
@@ -14,9 +14,11 @@ A multi-model conversational AI chatbot built with **Streamlit, LangChain, LangG
 
 | Feature | Description |
 | :--- | :--- |
-| **Multi-Model Support** | Native support for Groq LLaMA3, Google Gemini, and more. |
+| **Multi-Model Support** | Native support for Groq LLaMA3, Google Gemini (1.5 Pro/Flash, 2.5 Flash), and more. |
 | **Advanced Tools** | Integrated Web Search (Tavily), Wikipedia, and Python REPL. |
 | **Smart Orchestration** | Powered by **LangGraph** for robust tool-use decision logic. |
+| **Dynamic Selection** | Intelligent model filtering based on chosen provider (Groq vs. Google). |
+| **Auto-Clear Tool** | Integrated `clear_chat` tool allowing the AI to reset session history on request. |
 | **Optimized Performance** | History sliding window & recursion limits for cost/speed efficiency. |
 | **Customization** | Easily tailor system prompts and add custom tools in `tools.py`. |
 
@@ -44,20 +46,25 @@ cd ai-agent-chatbot
 ### 2. Configure API Keys
 
 Your `.env` should look like this:
-```env
-# API Keys
-GROQ_API_KEY=your_groq_key
-TAVILY_API_KEY=your_tavily_key         # For Web Search
 
+```env
 # Configuration
 MAX_HISTORY=10
-RECURSION_LIMIT=10                    # Max steps before the agent stops
+RECURSION_LIMIT=10            # Max steps before the agent stops
+
+# LLM & Tool Keys
+GROQ_API_KEY=your_groq_key
+GEMINI_API_KEY=your_gemini_key
+TAVILY_API_KEY=your_tavily_key
+
+# Dev Configuration
+BACKEND_URL="http://127.0.0.1:8000"
 ```
 
 ### 3. Run with Docker (Recommended)
 The easiest way to run the application is using Docker Compose:
 ```sh
-docker-compose up --build
+docker compose up --build
 ```
 This will start both the backend (FastAPI) and the frontend (Streamlit).
 
@@ -78,7 +85,7 @@ Start both services using the batch script:
 Alternatively, start them separately:
 ```sh
 # Terminal 1: Backend
-uvicorn main:app --port 8000
+uvicorn main:app --port 8000 --reload
 
 # Terminal 2: Frontend
 streamlit run client/app.py

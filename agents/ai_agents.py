@@ -9,20 +9,27 @@ from app.config import MAX_HISTORY, RECURSION_LIMIT
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def get_response_from_ai_agent(llm_id, query, allow_search: bool, system_prompt, provider):
+def get_response_from_ai_agent(llm_id, query, allow_tools: bool, system_prompt, provider):
     try:
-        logger.info(f"--- Agent Invocation Start ---")
-        logger.info(f"Model: {llm_id}, Search Enabled: {allow_search}")
+        logger.info("-"*50)
+        logger.info(f"----- Agent Invocation Start -----")
+        logger.info(f"----- Query: {query}")
+        logger.info(f"----- Model: {llm_id}, Tools Enabled: {allow_tools}")
 
         llm = get_llm(provider, llm_id)
-        tools = get_tools(allow_search)
+        tools = get_tools(allow_tools)
+
+        # Extra instructions for Llama 3 on Groq to use native tool calling
+        if "llama-3" in llm_id.lower():
+            system_prompt += "\n\nCRITICAL: Use the provided tool-calling API for all tool usage. Do NOT use legacy XML-style tags like <function> or <tool>. Output only the tool call in the standard format."
 
         agent = create_react_agent(
             model=llm,
-            tools=tools
+            tools=tools,
+            prompt=system_prompt
         )
 
-        messages = [SystemMessage(content=system_prompt)]
+        messages = []
         
         if len(query) > MAX_HISTORY:
             logger.info(f"Trimming history from {len(query)} to {MAX_HISTORY}")
@@ -36,7 +43,7 @@ def get_response_from_ai_agent(llm_id, query, allow_search: bool, system_prompt,
             elif msg['role'] == 'ai':
                 messages.append(AIMessage(content=msg['content']))
 
-        logger.info(f"Final messages count (including system): {len(messages)}")
+        logger.info(f"----- Final messages count (including system): {len(messages)}")
         config = {"recursion_limit": RECURSION_LIMIT}
         response = agent.invoke({"messages": messages}, config=config)
         res_messages = response.get("messages", [])
@@ -56,13 +63,15 @@ def get_response_from_ai_agent(llm_id, query, allow_search: bool, system_prompt,
         
         tool_names = list(set(tool_names))
         
-        logger.info(f"Agent finished. Tools used: {tool_names}")
-        logger.info(f"--- Agent Invocation End ---")
+        logger.info(f"----- Agent finished. Tools used: {tool_names}")
+        logger.info(f"----- Agent Invocation End -----")
+        logger.info("-"*50)
 
         return {
             "response": ai_response, 
             "tool_used": len(tool_names) > 0,
-            "tool_names": tool_names
+            "tool_names": tool_names,
+            "clear_chat": "clear_chat_history" in tool_names
         }
     
     except Exception as e:

@@ -6,4 +6,4 @@ class RequestState(BaseModel):
     model_provider: str
     system_prompt: str
     messages: List[dict]
-    allow_search: bool
+    allow_tools: bool

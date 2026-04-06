@@ -14,10 +14,14 @@ def chat_endpoint(request: RequestState):
         response = get_response_from_ai_agent(
             llm_id=request.model_name,
             query=request.messages,
-            allow_search=request.allow_search,
+            allow_tools=request.allow_tools,
             system_prompt=request.system_prompt,
             provider=request.model_provider,
         )
         return response
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        import traceback
+        import logging
+        logging.error(f"Error in chat_endpoint: {str(e)}")
+        logging.error(traceback.format_exc())
+        raise HTTPException(status_code=500, detail="An internal server error occurred while processing your request.")

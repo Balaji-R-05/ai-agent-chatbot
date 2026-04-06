@@ -2,12 +2,14 @@ streamlit
 langchain-core
 langchain_community
 langchain_groq
+# langchain-openai
+langchain-google-genai
+langchain-tavily
+langchain-experimental
+langgraph
 python-dotenv
 fastapi
 uvicorn
 pydantic
-langgraph
-langchain-tavily
 requests
 wikipedia
-langchain-experimental
