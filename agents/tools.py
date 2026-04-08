@@ -23,8 +23,6 @@ def tavily_search(query: str) -> str:
     return search.run(query)
 
 
-
-
 def get_tools(enable: bool):
     tools = []
     if enable:

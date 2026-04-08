@@ -8,18 +8,20 @@ st.markdown("Chat with powerful LLMs like Groq LLaMA3, Gemini with optional tool
 
 with st.sidebar:
     st.header("Agent Configuration")
-    model_provider = st.selectbox("Model Provider", ["Groq"], key="model_provider_select") # Add "Google" if needed
+    model_provider = st.selectbox("Model Provider", ["Groq", "Google"], key="model_provider_select") # Add "OpenAI" if needed
     
     if model_provider == "Groq":
         model_options =  [
             "openai/gpt-oss-120b"
         ]
-    # else:
+    # elif model_provider == "OpenAI":
     #     model_options = [
-    #         "gemini-2.5-flash",
-    #         "gemini-1.5-pro",
-    #         "gemini-2.5-pro"
+    #         "gpt-4o"
     #     ]
+    else:
+        model_options = [
+            "gemini-2.5-flash"
+        ]
          
     model_name = st.selectbox("Model Name", model_options, key="model_name_select")
     system_prompt = st.text_area(

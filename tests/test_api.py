@@ -4,7 +4,7 @@ import json
 def test_chat():
     url = "http://localhost:8000/chat"
     payload = {
-        "model_name": "llama-3.3-70b-versatile",
+        "model_name": "openai/gpt-oss-120b",
         "model_provider": "Groq",
         "system_prompt": "You are a helpful assistant.",
         "messages": [

@@ -18,7 +18,7 @@ A multi-model conversational AI chatbot built with **Streamlit, LangChain, LangG
 | **Advanced Tools** | Integrated Web Search (Tavily), Wikipedia, and Python REPL. |
 | **Smart Orchestration** | Powered by **LangGraph** for robust tool-use decision logic. |
 | **Dynamic Selection** | Intelligent model filtering based on chosen provider (Groq vs. Google). |
-| **Auto-Clear Tool** | Integrated `clear_chat` tool allowing the AI to reset session history on request. |
+| **Clear Button** | Integrated `clear_chat` tool for resetting session history on request. |
 | **Optimized Performance** | History sliding window & recursion limits for cost/speed efficiency. |
 | **Customization** | Easily tailor system prompts and add custom tools in `tools.py`. |
 
